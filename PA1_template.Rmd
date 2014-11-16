@@ -52,7 +52,9 @@ median(daySteps$steps)
 Below is a time-series plot of the 5-min interval and the average number of steps taken, averaged across all days. To build the graph, the first step is to find the mean of each five-minute interval across all of the days.  After obtaining a new data frame that contains only the interval and the mean number of steps for each interval, the interval variable is converted to a date-time variable for clarity when graphing.  Note: The strptime function also applies a date to the the new time variable.  That date in the AvgIntvlSteps data frame should be ignored.  The five minute interval, averaged across all of the days in the data set, that contains the maximum number of steps is interval 835, which is 8:35 am.
 
 ```{r}
-#Calculate the average number of steps taken, averaged across all days, for each five minute interval and create a time series plot of the five minute interval and the average number of steps taken, averaged across all days
+#Calculate the average number of steps taken, averaged across all days, for each 
+#five minute interval and create a time series plot of the five minute interval 
+#and the average number of steps taken, averaged across all days
 AvgIntvlSteps <- aggregate(steps~interval, data = ActivityData, mean)
 
 #Convert the interval variable to a date-time variable for clarity when plotted
@@ -64,7 +66,8 @@ plot(AvgIntvlSteps$time, AvgIntvlSteps$steps, type="l",
      main = "5-Minute Interval Average Number of Steps Taken, Across All Days", 
      xlab = "Time", ylab = "Average Steps Taken")
 
-#Which 5-min interval, on average across all the days in the dataset, contains the maximum number of steps?
+#Which 5-min interval, on average across all the days in the dataset, contains 
+#the maximum number of steps?
 MaxSteps <- max(AvgIntvlSteps$steps)
 
 MaxIntvlRow <- AvgIntvlSteps[AvgIntvlSteps$steps == MaxSteps,]
@@ -91,7 +94,8 @@ xtabs(is.na(DaysMissing$steps) ~ DaysMissing$date, drop.unused.levels = TRUE)
 #Create a new dataset to be modified
 ImpActData <- ActivityData
 
-#Impute missing values using the number of steps taken, averaged across all days, in each five minute interval.
+#Impute missing values using the number of steps taken, averaged across all 
+#days, in each five minute interval.
 for (i in 1:nrow(ImpActData)) {
     if (is.na(ImpActData$steps[i])) {
         AvgIntvl <- ImpActData$interval[i]
@@ -100,14 +104,14 @@ for (i in 1:nrow(ImpActData)) {
     }
 } 
 
-#Make a histogram of total number of steps taken each day using the new dataframe
+#Make a histogram of total number of steps taken each day using the new dataset
 daySteps2 <- aggregate(steps~date, data = ImpActData, sum)
 
 hist(daySteps2$steps, col = "red", 
      main = "Steps Taken Per Day, with imputed values",
      xlab = "Total Steps Per Day")
 
-#Calculate the mean and median number of steps taken each day using the new dataframe
+#Calculate the mean and median number of steps taken each day using the new dataset
 mean(daySteps2$steps)
 median(daySteps2$steps)
 ```
@@ -127,7 +131,8 @@ ImpActData$weekdays <- wday(ImpActData$dateTime, label=TRUE)
 ImpActData$weekend <- ifelse(ImpActData$weekdays %in% c("Sat","Sun"), 
                              "weekend", "weekday")
 
-#Calculate the five minute interval and the average number of steps taken, averaged across all weekday days or weekend days
+#Calculate the five minute interval and the average number of steps taken, 
+#averaged across all weekday days or weekend days
 AvgIntvlSteps2 <- aggregate(steps~interval + weekend, data = ImpActData, mean)
 
 #Convert the interval variable to a date-time variable for clarity in the plot
